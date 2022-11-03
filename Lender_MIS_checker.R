@@ -10,15 +10,10 @@ library(tidyverse)
 library(stringr)
 library(lubridate)
 library(data.table)
-library(DBI)
-library(RPostgreSQL)
-library(RMySQL)
-library(logging)
-#library(mailR)
+library(mailR)
 library(xtable)
 library(yaml)
 library(openxlsx)
-library(bit64)
 library(purrr)
 library(janitor)
 
@@ -35,17 +30,21 @@ if(!dir.exists(paste("./Output/",thisdate,sep="")))
   dir.create(paste("./Output/",thisdate,sep=""))
 } 
 
-appos_dump <- read.csv("C:\\R\\Lender Feedback\\Input\\appopsdump.csv") %>% filter(name %in% c('CashE')) %>% select(phone_home,offer_application_number,status,name,appops_status_code)
+appos_dump1 <- read.csv("C:\\R\\Lender Feedback\\Input\\appopsdump_1.csv") %>% select(lead_id,phone_home,offer_application_number,status,name,appops_status_code)
+appos_dump2 <- read.csv("C:\\R\\Lender Feedback\\Input\\appopsdump_2.csv") %>% select(lead_id,phone_home,offer_application_number,status,name,appops_status_code)
 
-Lender_MIS<-read_xlsx("C:\\R\\Lender Feedback\\Input\\Lender_Feedback_MIS.xlsx", sheet='Sheet1') %>% filter(!Remarks %in% c('Repeated_Feedback_cases'))
 
-names(appos_dump)
+appos_dump<-rbind(appos_dump1,appos_dump2)
+
+Lender_MIS<-read.xlsx("C:\\R\\Lender Feedback\\Output\\Final_FB_MIS_dump.xlsx") %>% filter(!Remark %in% c('Repeated_Feedback_cases','Not_in_CRM','Stuck_cases','Status_not_received'))
+
+#names(appos_dump)
 
 Lender_MIS$Current_APPOS<-appos_dump$appops_status_code[match(Lender_MIS$Application_Number, appos_dump$offer_application_number)]
 
 Lender_MIS <-Lender_MIS %>%
   mutate(Status_flag = case_when(
-    Remarks == Current_APPOS ~ 'Changed'
+    Remark == Current_APPOS ~ 'Changed'
   ))
 
 Lender_MIS$Status_flag[is.na(Lender_MIS$Status_flag)] <- 'Not changed'
@@ -62,8 +61,16 @@ Lender_MIS$Status_flag[is.na(Lender_MIS$Status_flag)] <- 'Not changed'
 #checker_maker <- Lender_MIS %>% group_by(SKU) %>% dplyr::summarise(Total = length(Application_Number)) %>% adorn_totals("row")
 
 
+Lender_MIS_chk_1 <- Lender_MIS %>% group_by(Status_flag) %>% dplyr::summarise(Total = n_distinct(mobile_number, na.rm = TRUE)) %>% adorn_totals("row")
 
-write.csv(Lender_MIS, file = "C:\\R\\Lender Feedback\\Output\\Lender_Checker_MIS.csv")
+Lender_MIS_chk_2 <- Lender_MIS %>% filter(Status_flag %in% c('Not changed')) %>% group_by(Lender,New_appops_status) %>% dplyr::summarise(Total = n_distinct(mobile_number, na.rm = TRUE))
+
+Lender_MIS_chk_2<-spread(Lender_MIS_chk_2,key=New_appops_status, value = Total) %>% adorn_totals("row")
+
+#write.xlsx(Lender_MIS, file = "C:\\R\\Lender Feedback\\Output\\Final_FB_MIS.xlsx")
+
+
+write.xlsx(Lender_MIS, file = "C:\\R\\Lender Feedback\\Output\\Lender_Checker_MIS.xlsx")
 
 
 # CashE_upload<- LK_lender_MIS_new_rej %>% filter(NEW_appops_description %in% c("Initial FB - Contact successful", "Docs stage - Rejected")) %>% select(offer_application_number,NEW_appops_description) %>% 
@@ -78,13 +85,13 @@ write.csv(Lender_MIS, file = "C:\\R\\Lender Feedback\\Output\\Lender_Checker_MIS
 #####################################CHECKER MIS - mail sent
 
 
-today=format(Sys.Date(), format="%d-%B-%Y")
+today=format(Sys.Date()-1, format="%d-%B-%Y")
 
 
-filename<- "C:\\R\\Lender Feedback\\Output\\Lender_Checker_MIS.csv"
+filename<- "C:\\R\\Lender Feedback\\Output\\Lender_Checker_MIS.xlsx"
 
 
-myMessage = paste0("Lender Feedback Uploaded Checker MIS- ",today,sep='')
+myMessage = paste0("Lender FB Update MIS- ",today,sep='')
 sender <- "shanthi.s@creditmantri.com"
 
 mail_LNT<-c("shanthi.s@creditmantri.com")
@@ -110,10 +117,11 @@ msg = '
     </style>
   </head>
   <body>
-    <h3> Uploaded Summary </h3>
-    <p> ${print(xtable(lender_maker, digits = 0), type = \'html\')} </p><br>
-    <h3> Current Status Summary </h3>
-    <p> ${print(xtable(checker_maker, digits = 0), type = \'html\')} </p><br>
+    <h3> Overall Summary </h3>
+    <p> ${print(xtable(Lender_MIS_chk_1, digits = 0), type = \'html\')} </p><br>
+    <h3> Not changed cases AOS Summary </h3>
+    <p> ${print(xtable(Lender_MIS_chk_2, digits = 0), type = \'html\')} </p><br>
+    
     
 </body>
 </html>'
@@ -128,8 +136,8 @@ if(file.exists(filename)){
                      inline = T,
                      body = str_interp(msg),
                      smtp = list(host.name = "email-smtp.us-east-1.amazonaws.com", port = 587,
-                                 user.name = "AKIA6IP74RHPWNJ7SJUL",
-                                 passwd = "BPahpceHjt3FSbdHWybStClDcsZyYZYLP/JSKE50Tyd8" , ssl = TRUE),
+                                 user.name = "AKIA6IP74RHP36A2A7WY",
+                                 passwd = "BMRvtdvA5TlHac3vFMtO3aTFAT8wXFVEod9ZkgoftvKk" , ssl = TRUE),
                      authenticate = TRUE,
                      send = TRUE)
   
