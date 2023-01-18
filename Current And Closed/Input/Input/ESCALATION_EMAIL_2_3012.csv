@@ -1,0 +1,4 @@
+lead_id,first_name,last_name,lender,product,account_no,latest_facilitystatus,latest_facilitystatus_change_date,email_id,phone_home,dob,latest_crm_status,latest_crm_status_change_date,product_status,is_ldb
+60000187520,BHIVSEN,CHANDRABHAN CHAVAN,RBL,CC,OgPFmJzC670Zi+pehNnOtfNd8hTz5OqU,01C Requested customer to send Mail,10-10-22 14:05,shanthi.s@creditmantri.com,9174487824,06-01-77,Escalation Email 1,12-08-22 17:50,CIS-WP-LP-310,1
+60000187813,MUKESH,SARAF,BARCLAYS,CC,QNrgCtbXJgX2Ck7wIE6H5A==,01C Requested customer to send Mail,10-10-22 22:30,shanthi.s@creditmantri.com,9893406246,9/15/1969,Escalation Email 1,12-08-22 17:50,CIS-WP-LP-310,0
+60000187837,PULKIT,YADAV,ICICI,CC,geBYsnliamyNwoNEZymxJ7cGzTE5bbic,01C Requested customer to send Mail,10-10-22 14:06,shanthi.s@creditmantri.com,9810884104,6/29/1986,Escalation Email 1,12-08-22 17:50,CIS-WP-LP-310,1

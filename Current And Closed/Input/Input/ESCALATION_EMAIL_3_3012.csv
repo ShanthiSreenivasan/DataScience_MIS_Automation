@@ -1,0 +1,4 @@
+lead_id,first_name,last_name,lender,product,account_no,latest_facilitystatus,latest_facilitystatus_change_date,email_id,phone_home,dob,latest_crm_status,latest_crm_status_change_date,product_status,is_ldb
+60000185214,Manak,Rajput,AXIS BANK,CC,J3QmDQEOf037JwIfHATETQ==,01C Requested customer to send Mail,10-01-22 14:05,shanthi.s@creditmantri.com,9012088899,01-02-89,Escalation Email 2,12-08-22 17:50,CIS-WP-LP-310,1
+60000185299,AJAY,KUMAR,ICICI,CC,geBYsnliamwkaBbSysAxpLcGzTE5bbic,01C Requested customer to send Mail,10-01-22 14:05,shanthi.s@creditmantri.com,9992410809,02-02-93,Escalation Email 2,12-08-22 17:50,CIS-WP-LP-310,1
+60000185232,BABAKKAGARI,PRAKASH,Canara Bank,OD,AoxQuRlFQwz0pyumFi52G8/Xr85g2XX/,01C Requested customer to send Mail,10-01-22 14:10,shanthi.s@creditmantri.com,9959689890,06-12-91,Escalation Email 2,12-08-22 17:50,CIS-WP-LP-310,0

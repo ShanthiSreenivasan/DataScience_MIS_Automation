@@ -1,0 +1,4 @@
+lead_id,first_name,last_name,lender,product,account_no,latest_facilitystatus,latest_facilitystatus_change_date,email_id,phone_home,dob,latest_crm_status,latest_crm_status_change_date,product_status,is_ldb
+60000182952,GATTU SRINIVAS,Gattu,AXIS BANK,CC,CCb4Gz+IuFJz8BQ4QRsY3wdoYfWaroAq,01C Requested customer to send Mail,9/23/2022 16:25,shanthi.s@creditmantri.com,9849370740,3/30/1972,Escalation Email 3,12-08-22 17:50,CIS-WP-LP-310,1
+60000182954,Manoj,Kumar,Bajaj,OT-99,VEoia2O3vz4O/ixBg4KedgdoYfWaroAq,01C Requested customer to send Mail,9/23/2022 16:30,shanthi.s@creditmantri.com,9169990004,3/24/1990,Escalation Email 3,12-08-22 17:50,CIS-WP-LP-310,0
+60000182970,MUKESH,TARACHAND GARG,Bajaj,CL,Z/u47n4J10VGgtSeGKY7xg==,01C Requested customer to send Mail,9/23/2022 16:30,shanthi.s@creditmantri.com,9892296543,03-12-74,Escalation Email 3,12-08-22 17:50,CIS-WP-LP-310,0
